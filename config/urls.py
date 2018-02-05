@@ -4,20 +4,23 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.views.generic import TemplateView
 from django.views import defaults as default_views
+from test_venta.sales.v0.urls import router as sales
+from django.views.generic.base import RedirectView
+from common.utils import DefaultRouter
+from users.v0.urls import router as users
+
+
+router = DefaultRouter()
+# router.extend(upload)
+router.extend(sales)
+router.extend(users)
 
 urlpatterns = [
-    url(r'^$', TemplateView.as_view(template_name='pages/home.html'), name='home'),
-    url(r'^about/$', TemplateView.as_view(template_name='pages/about.html'), name='about'),
+    url(r'^api/v0/', include(router.urls, namespace='api')),
+    url(r'^$', RedirectView.as_view(url='/api/v0/', permanent=False), name='home'),
 
     # Django Admin, use {% url 'admin:index' %}
     url(settings.ADMIN_URL, admin.site.urls),
-
-    # User management
-    url(r'^users/', include('test_venta.users.urls', namespace='users')),
-    url(r'^accounts/', include('allauth.urls')),
-
-    # Your stuff: custom urls includes go here
-
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

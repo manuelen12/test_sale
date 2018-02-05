@@ -43,6 +43,8 @@ DJANGO_APPS = [
 
     # Admin
     'django.contrib.admin',
+    'rest_framework',
+    'rest_framework_swagger',
 ]
 THIRD_PARTY_APPS = [
     'crispy_forms',  # Form layouts
@@ -55,6 +57,8 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     # custom users app
     'test_venta.users.apps.UsersConfig',
+    'test_venta.common.apps.CommonConfig',
+    'test_venta.sales.apps.SalesConfig',
     # Your stuff: custom apps go here
 ]
 
@@ -273,3 +277,41 @@ ADMIN_URL = r'^admin/'
 
 # Your common stuff: Below this line define 3rd party library settings
 # ------------------------------------------------------------------------------
+REST_FRAMEWORK = {
+   'DEFAULT_RENDERER_CLASSES': (
+       'rest_framework.renderers.JSONRenderer',
+       'rest_framework.renderers.BrowsableAPIRenderer',
+   ),
+   'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.AllowAny',
+   ),
+   'DEFAULT_AUTHENTICATION_CLASSES': (
+       'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+       'common.csrf_token.CsrfExemptSessionAuthentication',
+       'rest_framework.authentication.BasicAuthentication',
+       # 'rest_framework.authentication.SessionAuthentication',
+       # 'rest_framework.authentication.SessionAuthentication',
+       # 'rest_framework.authentication.BasicAuthentication',
+   ),
+
+   'DEFAULT_PAGINATION_CLASS': 'common.pagination.LinkHeaderPagination',
+   'PAGE_SIZE': 30,
+
+   'EXCEPTION_HANDLER': 'common.views.custom_exception_handler',
+   'JWT_VERIFY_EXPIRATION': False,
+   # 'JWT_EXPIRATION_DELTA': datetime.timedelta(hours=24),
+   "JWT_ALLOW_REFRESH": True
+}
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'api_key': {
+            'type': 'apiKey',
+            'in': 'header',
+            'name': 'Authorization'
+        }
+    },
+    'USE_SESSION_AUTH': False
+}
+
+HTTP = "http://"

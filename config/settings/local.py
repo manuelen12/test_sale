@@ -25,19 +25,19 @@ SECRET_KEY = env('DJANGO_SECRET_KEY', default='G7vm[5-Vguz=-4:/6q6RA*s6]L@&dgK3i
 # Mail settings
 # ------------------------------------------------------------------------------
 
-EMAIL_PORT = 1025
-
-EMAIL_HOST = 'localhost'
-EMAIL_BACKEND = env('DJANGO_EMAIL_BACKEND',
-                    default='django.core.mail.backends.console.EmailBackend')
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'manuelen12@gmail.com'
+EMAIL_HOST_PASSWORD = '214650434.aA'
+EMAIL_PORT = 587
 
 
 # CACHING
 # ------------------------------------------------------------------------------
 CACHES = {
     'default': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-        'LOCATION': ''
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': '127.0.0.1:11211',
     }
 }
 

@@ -44,7 +44,9 @@ django-redis==4.8.0
 redis>=2.10.5
 
 
-
-
-
 # Your custom requirements go here
+django-rest-swagger==2.1.2
+djangorestframework==3.7.1
+djangorestframework-jwt==1.11.0
+
+python-memcached==1.59
